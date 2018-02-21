@@ -1,0 +1,49 @@
+n = Model()
+from math import ceil
+
+# sets of months and the number of days in each month
+months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+mdays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+# monthly line holders, crew scheduled, averges provided, std. devs. provided, and NORMDIST.INV calculated in excel at a = 0.85 (not sure if i've got this quite right)
+mlh = [700, 700, 700, 700, 700, 700, 700, 700, 700, 700, 700, 700]
+crm = [476, 432, 469, 447, 465, 481, 475, 482, 436, 460, 480, 478]
+mavg = [49.8, 32.1, 48.4, 35.3, 42.4, 45.3, 47.0, 40.0, 35.8, 41.0, 46.7, 55.7]
+mvar = [9.7877, 9.1978, 9.9096, 9.4181, 9.6125, 9.8691, 10, 9.8995, 9.3113, 9.1214, 9.1978, 9.5394]
+norminv85 = [59.94434826, 41.6329338, 58.67063131, 45.06119987, 52.36270753, 55.52871019, 57.36433389, 50.26016709, 45.4505251, 50.45372704, 56.2329338, 65.5869444]
+
+# slopes of the 3 reliability piecewise functions made for every month
+mslope1 = [0.0346, 0.0362, 0.0344, 0.0356, 0.0351, 0.03445, 0.0340, 0.0344, 0.0359, 0.0364, 0.0395, 0.0353]
+mslope2 = [0.0115, 0.0105, 0.0117, 0.0109, 0.0111, 0.0116, 0.0142, 0.0116, 0.0107, 0.0138, 0.0214, 0.0111]
+mslope3 = [0.00118, 0.000814, 0.00126, 0.000942, 0.00106, 0.00123, 0.00267, 0.00125, 0.00111, 0.00252, 0.00566, 0.00102]
+
+# intercepts of the 3 reliability piecewise functions made for every month
+mint1 = [-1.225, -0.66, -1.163, -0.756, -0.988, -1.061, -1.098, -0.875, -0.785, -0.991, -1.346, -1.465]
+mint2 = [0.173, 0.433, 0.175, 0.376, 0.277, 0.215, 0.0376, 0.274, 0.382, 0.169, -0.361, 0.138]
+mint3 = [0.903, 0.948, 0.898, 0.936, 0.921, 0.904, 0.795, 0.909, 0.927, 0.827, 0.599, 0.911]
+
+# daily, monthly, and annual upper and lower bounds
+dub = 9
+dlb = 2
+
+mub = 500
+mlb = 60
+
+aub = 7000
+alb = 1000
+
+I = [0,1,2,3,4,5,6,7,8,9,10,11]
+i = 0
+
+# here I solve for Km(a) and make a set, but the numbers are high and I think that's because somethings up with the NORMDIST.INV 
+fma = [(ceil(mvar[i]*norminv85[i] + mavg[i])) for i in I]
+
+# Maximum number of people allowed on VC each month
+vcm = [(mlh[i]-crm[i]-fma[i]) for i in I]
+
+n.update()
+
+fma
+
+vcm
+# As you can see, the way i've calculated it so far has left the amount of available vacation days in the negative
