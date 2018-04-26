@@ -123,15 +123,20 @@ class SimpleTableInput1(tk.Frame):
     #-----"Load Values" button function-----      
     def load_save(self): 
         loadList = []
+        subLoadList = []
         with open('save_file.db', 'rb') as file:
             while True:
                 try:
                     loadList=pickle.load(file)
+                    y = len(loadList)
+                    x = y-9
+                    for m in range(8):
+                        subLoadList.append(loadList[0][m+x])
                 except EOFError:
                     break
         for row in range(self.rows):
             self._entry[row,1].delete(0, END)
-            self._entry[row,1].insert(row, str(loadList[0][row]))
+            self._entry[row,1].insert(row, str(subLoadList[row]))
             
     #-----Perform input validation-----
     def _validate(self, P):
@@ -159,7 +164,7 @@ class Example(tk.Frame):
         self.saveValues = ttk.Button(self, text="Save Values", 
                                      command=self.save_values)
         self.saveValues.place(x=405,y=193) 
-    
+
     #-----"Submit" button function-----    
     def on_submit(self):
         innerList.append(self.table.get())
@@ -264,13 +269,18 @@ class SimpleTableInput2(tk.Frame):
     #-----"Load Values" button function-----         
     def load_save(self):
         loadList2 = []
+        subLoadList = []
         with open('save_file2.p', 'rb') as file2:
-            loadList2 = pickle.load(file2)
+            loadList2=pickle.load(file2)
+            y = len(loadList2)
+            x = y-49
+            for m in range(48):
+                subLoadList.append(loadList2[0][m+x])
         for row in range(self.rows):
             for column in range(self.columns):
                 index = (row+1, column+1)
                 self._entry[index].delete(0, END)
-                self._entry[index].insert(0, str(loadList2[0][column+row*12]))
+                self._entry[index].insert(0, str(subLoadList[column+row*12]))
                 
     #-----Return a list of lists, containing the data in the table------
     def get(self):
@@ -667,7 +677,7 @@ class SaberApp(tk.Tk):
         container.pack(side='top', fill='both', expand='true')
         
         #-----Icon-----
-        root.iconbitmap(self, default="OSabreIcon.ico")
+        root.iconbitmap(self, "OSabreIcon.ico")
         root.wm_title(self, "Sabre")
         
         container.grid_rowconfigure(0, weight=1)
@@ -930,15 +940,20 @@ class SimpleTableInput3(tk.Frame):
     #-----"Load Values" button function-----      
     def load_save(self): 
         loadList3 = []
+        subLoadList =[]
         with open('save_file3.db', 'rb') as file:
             while True:
                 try:
                     loadList3=pickle.load(file)
+                    y = len(loadList3)
+                    x = y-9
+                    for m in range(8):
+                        subLoadList.append(loadList3[0][m+x])
                 except EOFError:
                     break
         for row in range(self.rows):
             self._entry[row,1].delete(0, END)
-            self._entry[row,1].insert(row, str(loadList3[0][row]))
+            self._entry[row,1].insert(row, str(subLoadList[row]))
             
     #-----Perform input validation-----
     def _validate(self, P):
@@ -986,21 +1001,21 @@ root.mainloop()
 #-----Fill in variables with inputs from user-----
 for m in range(8):
     if m == 0:
-        currentYear = int(innerList3[m])
+        currentYear2 = int(innerList3[m])
     elif m == 1:
-        reliabilityLevel = float(innerList3[m])
+        reliabilityLevel2 = float(innerList3[m])
     elif m == 2:
-        dailyUpperBoundVacationAllotted = int(innerList3[m])
+        dailyUpperBoundVacationAllotted2 = int(innerList3[m])
     elif m == 3:
-        dailyLowerBoundVacationAllotted = int(innerList3[m])
+        dailyLowerBoundVacationAllotted2 = int(innerList3[m])
     elif m == 4:
-        userMonthlyUpperBoundVacationAllotted = int(innerList3[m])
+        userMonthlyUpperBoundVacationAllotted2 = int(innerList3[m])
     elif m == 5:
-        monthlyLowerBoundVacationAllotted = int(innerList3[m])
+        monthlyLowerBoundVacationAllotted2 = int(innerList3[m])
     elif m == 6:
-        userAnnualUpperBoundVacationAllotted = int(innerList3[m])
+        userAnnualUpperBoundVacationAllotted2 = int(innerList3[m])
     else:
-        annualLowerBoundVacationAllotted = int(innerList3[m])
+        annualLowerBoundVacationAllotted2 = int(innerList3[m])
 
 
 #-----Second Crew GUI window-----
@@ -1071,13 +1086,18 @@ class SimpleTableInput4(tk.Frame):
     #-----"Load Values" button function-----         
     def load_save(self):
         loadList4 = []
+        subLoadList = []
         with open('save_file4.p', 'rb') as file2:
-            loadList4 = pickle.load(file2)
+            loadList4=pickle.load(file2)
+            y = len(loadList4)
+            x = y-49
+            for m in range(48):
+                subLoadList.append(loadList4[0][m+x])
         for row in range(self.rows):
             for column in range(self.columns):
                 index = (row+1, column+1)
                 self._entry[index].delete(0, END)
-                self._entry[index].insert(0, str(loadList4[0][column+row*12]))
+                self._entry[index].insert(0, str(subLoadList[column+row*12]))
                 
     #-----Return a list of lists, containing the data in the table------
     def get(self):
@@ -1135,10 +1155,10 @@ root.mainloop()
 #-----Part 5, Second optimization--------------------------------------------
 #-----Part 5, Second optimization--------------------------------------------
 #-----Part 5, Second optimization--------------------------------------------
-inverseNormalReliability = norm.ppf(reliabilityLevel)
+inverseNormalReliability = norm.ppf(reliabilityLevel2)
 
 #-----Range for February based on the year----- 
-if currentYear%4==0:
+if currentYear2%4==0:
     FebruaryLength2 = range(29)
     daysInFeb2 = 29
     numberOfDays2 = 366
@@ -1146,6 +1166,8 @@ else:
     FebruaryLength2 = range(28)
     daysInFeb2 = 28
     numberOfDays2 = 365
+
+daysInMonths2 = [31, daysInFeb2, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     
 #-----Monthly line holders, crew scheduled, averges provided, 
 #      variances provided, and the difference between monthlyLineHolders 
@@ -1202,9 +1224,9 @@ n.update()
 #-----Decision variable-----
 vacationVariable = []
 for m in Months:
-    vacationVariable.append(n.addVars(daysInMonths[m], 
-                                      lb = dailyLowerBoundVacationAllotted, 
-                                      ub = dailyUpperBoundVacationAllotted, 
+    vacationVariable.append(n.addVars(daysInMonths2[m], 
+                                      lb = dailyLowerBoundVacationAllotted2, 
+                                      ub = dailyUpperBoundVacationAllotted2, 
                                       obj = 1, name = "2ndMonth" + str(m)))
 #-----Deleting monthly contraints-----
 
@@ -1215,10 +1237,10 @@ for m in Months:
        n.addConstr(vacationVariable[m].sum() <= monthlyUpperBoundVacationAllotted2[m], 
                    name = "monthlyUpperBoundVacationAllottedForMonth2" + str(m))
 for m in Months:
-       n.addConstr(vacationVariable[m].sum() <= userMonthlyUpperBoundVacationAllotted, 
+       n.addConstr(vacationVariable[m].sum() <= userMonthlyUpperBoundVacationAllotted2, 
                    name = "userMonthlyUpperBoundVacationAllottedForMonth2" + str(m))
 for m in Months:
-    n.addConstr(vacationVariable[m].sum() >= monthlyLowerBoundVacationAllotted, 
+    n.addConstr(vacationVariable[m].sum() >= monthlyLowerBoundVacationAllotted2, 
                 name = "monthlyLowerBoundVacationAllotted2" + str(m))   
 
 #-----Calculating the objective value-----
@@ -1231,9 +1253,9 @@ for m in Months:
 #-----Implementing annual constraints-----
 n.addConstr(totalObjectiveValue2 <= annualUpperBoundVacationAllotted2, 
             name = "TotannualUpperBoundVacationAllotted2") 
-n.addConstr(totalObjectiveValue2 <= userAnnualUpperBoundVacationAllotted, 
+n.addConstr(totalObjectiveValue2 <= userAnnualUpperBoundVacationAllotted2, 
             name = "userTotannualUpperBoundVacationAllotted2") 
-n.addConstr(totalObjectiveValue2 >= annualLowerBoundVacationAllotted, 
+n.addConstr(totalObjectiveValue2 >= annualLowerBoundVacationAllotted2, 
             name = "TotannualLowerBoundVacationAllotted2")
 
 #-----Objective function-----
@@ -1409,20 +1431,20 @@ for l in range(25):
     for m in Months:
         tempCalculation = newDevAndVacation[m] - stdDevMonthlyExpectedAbsences2[m]*standInverseNorm[l]
         tempTotalList.append(tempCalculation)
-        if tempTotalList[m] > userMonthlyUpperBoundVacationAllotted:
-            tempTotalList[m] = userMonthlyUpperBoundVacationAllotted
+        if tempTotalList[m] > userMonthlyUpperBoundVacationAllotted2:
+            tempTotalList[m] = userMonthlyUpperBoundVacationAllotted2
         else:
             pass
-        if tempTotalList[m] < monthlyLowerBoundVacationAllotted:
-            tempTotalList[m] = monthlyLowerBoundVacationAllotted
+        if tempTotalList[m] < monthlyLowerBoundVacationAllotted2:
+            tempTotalList[m] = monthlyLowerBoundVacationAllotted2
         else:
             pass
-        if tempTotalList[m] > dailyUpperBoundVacationAllotted*daysInMonths[m]:
-            tempTotalList[m] = dailyUpperBoundVacationAllotted*daysInMonths[m]
+        if tempTotalList[m] > dailyUpperBoundVacationAllotted2*daysInMonths2[m]:
+            tempTotalList[m] = dailyUpperBoundVacationAllotted2*daysInMonths2[m]
         else:
            pass
-        if tempTotalList[m] < dailyLowerBoundVacationAllotted*daysInMonths[m]:
-          tempTotalList[m] = dailyLowerBoundVacationAllotted*daysInMonths[m]
+        if tempTotalList[m] < dailyLowerBoundVacationAllotted2*daysInMonths2[m]:
+          tempTotalList[m] = dailyLowerBoundVacationAllotted2*daysInMonths2[m]
         else:
            pass
         if len(tempTotalList) == 12:
@@ -1430,12 +1452,12 @@ for l in range(25):
             scatterPlotValues2.append(trunc(tempCalculation))
         else:
             pass
-    if scatterPlotValues2[l] > userAnnualUpperBoundVacationAllotted:
-        scatterPlotValues2[l] = userAnnualUpperBoundVacationAllotted
+    if scatterPlotValues2[l] > userAnnualUpperBoundVacationAllotted2:
+        scatterPlotValues2[l] = userAnnualUpperBoundVacationAllotted2
     else:
         pass
-    if scatterPlotValues2[l] < annualLowerBoundVacationAllotted:  
-           scatterPlotValues2[l] = annualLowerBoundVacationAllotted
+    if scatterPlotValues2[l] < annualLowerBoundVacationAllotted2:  
+           scatterPlotValues2[l] = annualLowerBoundVacationAllotted2
     else:
         pass    
     
@@ -1454,7 +1476,7 @@ class SaberApp(tk.Tk):
         
         root.wm_title(self, "Sabre")
         #-----Icon-----
-        root.iconbitmap(self, default="OSabreIcon.ico")
+        root.iconbitmap(self, "OSabreIcon.ico")
         
         self.frames = {}
 
@@ -1491,28 +1513,235 @@ class StartPage(tk.Frame):
         self.ExitButton.pack(side='top')
         
     def Writefile(self):
-        with open('Optimization Results.txt', 'w') as file3:
-            file3.write("Results of the initital optimization.\n\nThe total number of vataction days for the year is ")
-            file3.write(str(tempTotal))
-            file3.write(".\n\n")
+        with open('Optimization Results.txt', 'w') as file5:
+            file5.write("Results of the initital optimization.\n\nThe total number of vataction days for the year is ")
+            file5.write(str(tempTotal))
+            file5.write(".\n\n")
             for m in Months:
-                file3.write("The optimal value for ")
-                file3.write(listOfMonths[m])
-                file3.write(" is ")
-                file3.write(str(optimalValuesMonths[m]))
-                file3.write(".\n")
-            file3.write("\n\n")
-            file3.write("Results of the secondary optimization.\n\nThe total number of vataction days for the year is ")
-            file3.write(str(tempTotal2))
-            file3.write(".\n\n")
+                file5.write("The optimal value for ")
+                file5.write(listOfMonths[m])
+                file5.write(" is ")
+                file5.write(str(optimalValuesMonths[m]))
+                file5.write(" days.\n")
+            file5.write("\n\n")
+            file5.write("Results of the secondary optimization.\n\nThe total number of vataction days for the year is ")
+            file5.write(str(tempTotal2))
+            file5.write(".\n\n")
             for m in Months:
-                file3.write("The optimal value for ")
-                file3.write(listOfMonths[m])
-                file3.write(" is ")
-                file3.write(str(optimalValuesMonths2[m]))
-                file3.write(".\n")
-            file3.write("\n")
-        
+                file5.write("The optimal value for ")
+                file5.write(listOfMonths[m])
+                file5.write(" is ")
+                file5.write(str(optimalValuesMonths2[m]))
+                file5.write(" days.\n")
+            file5.write("\n\n")
+            file5.write("Analysis\n\n")
+            if tempTotal - tempTotal2 == 0:
+                file5.write("The optimal value did not change.\n")
+            elif tempTotal - tempTotal2 > 0:
+                file5.write("The optimal value decreased by ")
+                file5.write(tempTotal - tempTotal2)
+                file5.write(" days.\n")
+            else:
+                file5.write("The optimal value increased by ")
+                file5.write(str(abs(tempTotal - tempTotal2)))
+                file5.write(" days.\n")
+            file5.write("\n")
+            for m in Months:
+                if optimalValuesMonths[m] - optimalValuesMonths2[m] == 0:
+                    pass
+                elif optimalValuesMonths[m] - optimalValuesMonths2[m] > 0:
+                    file5.write("The optimal value for ")
+                    file5.write(listOfMonths[m])
+                    file5.write(" decreased by ")
+                    file5.write(str(optimalValuesMonths[m] - optimalValuesMonths2[m]))
+                    file5.write(" days.\n")
+                else:
+                    file5.write("The optimal value for ")
+                    file5.write(listOfMonths[m])
+                    file5.write(" increased by ")
+                    file5.write(str(abs(optimalValuesMonths[m] - optimalValuesMonths2[m])))
+                    file5.write(" days.\n")
+                    
+            if tempTotal == userAnnualUpperBoundVacationAllotted:
+                file5.write("\n\nThe first optimal value is equal to the annual upper bound that you entered.")
+                file5.write("\nThis is because the true optimal value is greater than or equal to your upper bound.")
+            else:
+                pass
+            if tempTotal == annualLowerBoundVacationAllotted:
+                file5.write("\n\nThe first optimal value is equal to the annual lower bound that you entered.")
+                file5.write("\nThis is because the true optimal value is less than or equal to your lower bound.")
+            else:
+                pass
+            if tempTotal2 == userAnnualUpperBoundVacationAllotted2:
+                file5.write("\n\nThe second optimal value is equal to the second annual upper bound that you entered.")
+                file5.write("\nThis is because the true optimal value is greater than or equal to your upper bound.")
+            else:
+                pass
+            if tempTotal2 == annualLowerBoundVacationAllotted2:
+                file5.write("\n\nThe second optimal value is equal to the second annual lower bound that you entered.")
+                file5.write("\nThis is because the true optimal value is less than or equal to your lower bound.")
+            else:
+                pass
+            
+            if currentYear == currentYear2:
+                pass
+            elif currentYear > currentYear2:
+                file5.write("\n\nThe year was decreased by ")
+                file5.write(currentYear - currentYear2)
+                if currentYear - currentYear2 == 1:
+                    file5.write(" year.")
+                elif currentYear - currentYear2 == -1:
+                    file5.write(" year.")
+                else:
+                    file5.write(" years.")
+            else:
+                file5.write("\n\nThe year was increased by ")
+                file5.write(str(abs(currentYear - currentYear2)))
+                if currentYear - currentYear2 == 1:
+                    file5.write(" year.")
+                elif currentYear - currentYear2 == -1:
+                    file5.write(" year.")
+                else:
+                    file5.write(" years.")
+                
+            if reliabilityLevel == reliabilityLevel2:
+                pass
+            elif reliabilityLevel > reliabilityLevel2:
+                file5.write("\n\nThe reliability level was decreased by ")
+                file5.write(str(reliabilityLevel - reliabilityLevel2))
+                file5.write(".")
+            else:
+                file5.write("\n\nThe reliability level was increased by ")
+                file5.write(str(abs(reliabilityLevel - reliabilityLevel2)))
+                file5.write(".")
+                
+            if dailyUpperBoundVacationAllotted == dailyUpperBoundVacationAllotted2:
+                pass
+            elif dailyUpperBoundVacationAllotted > dailyUpperBoundVacationAllotted2:
+                file5.write("\n\nThe daily upper bound was decreased by ")
+                file5.write(dailyUpperBoundVacationAllotted - dailyUpperBoundVacationAllotted2)
+                if dailyUpperBoundVacationAllotted - dailyUpperBoundVacationAllotted2 == 1:
+                    file5.write(" vacation day.")
+                elif dailyUpperBoundVacationAllotted - dailyUpperBoundVacationAllotted2 == -1:
+                    file5.write(" vacation day.")
+                else:
+                    file5.write(" vacation days.")
+            else:
+                file5.write("\n\nThe daily upper bound was increased by ")
+                file5.write(str(abs(dailyUpperBoundVacationAllotted - dailyUpperBoundVacationAllotted2)))
+                if dailyUpperBoundVacationAllotted - dailyUpperBoundVacationAllotted2 == 1:
+                    file5.write(" vacation day.")
+                elif dailyUpperBoundVacationAllotted - dailyUpperBoundVacationAllotted2 == -1:
+                    file5.write(" vacation day.")
+                else:
+                    file5.write(" vacation days.")
+                
+            if dailyLowerBoundVacationAllotted == dailyLowerBoundVacationAllotted2:
+                pass
+            elif dailyLowerBoundVacationAllotted > dailyLowerBoundVacationAllotted2:
+                file5.write("\n\nThe daily lower bound was decreased by ")
+                file5.write(str(dailyLowerBoundVacationAllotted - dailyLowerBoundVacationAllotted2))
+                if dailyLowerBoundVacationAllotted - dailyLowerBoundVacationAllotted2 == 1:
+                    file5.write(" vacation day.")
+                elif dailyLowerBoundVacationAllotted - dailyLowerBoundVacationAllotted2 == -1:
+                    file5.write(" vacation day.")
+                else:
+                    file5.write(" vacation days.")
+            else:
+                file5.write("\n\nThe daily lower bound was increased by ")
+                file5.write(str(abs(dailyLowerBoundVacationAllotted - dailyLowerBoundVacationAllotted2)))
+                if dailyLowerBoundVacationAllotted - dailyLowerBoundVacationAllotted2 == 1:
+                    file5.write(" vacation day.")
+                elif dailyLowerBoundVacationAllotted - dailyLowerBoundVacationAllotted2 == -1:
+                    file5.write(" vacation day.")
+                else:
+                    file5.write(" vacation days.")
+            
+            if userMonthlyUpperBoundVacationAllotted == userMonthlyUpperBoundVacationAllotted2:
+                pass
+            elif userMonthlyUpperBoundVacationAllotted > userMonthlyUpperBoundVacationAllotted2:
+                file5.write("\n\nThe monthly upper bound was decreased by ")
+                file5.write(str(userMonthlyUpperBoundVacationAllotted - userMonthlyUpperBoundVacationAllotted2))
+                if userMonthlyUpperBoundVacationAllotted - userMonthlyUpperBoundVacationAllotted2 == 1:
+                    file5.write(" vacation day.")
+                elif userMonthlyUpperBoundVacationAllotted - userMonthlyUpperBoundVacationAllotted2 == -1:
+                    file5.write(" vacation day.")
+                else:
+                    file5.write(" vacation days.")
+            else:
+                file5.write("\n\nThe monthly upper bound was increased by ")
+                file5.write(str(abs(userMonthlyUpperBoundVacationAllotted - userMonthlyUpperBoundVacationAllotted2)))
+                if userMonthlyUpperBoundVacationAllotted - userMonthlyUpperBoundVacationAllotted2 == 1:
+                    file5.write(" vacation day.")
+                elif userMonthlyUpperBoundVacationAllotted - userMonthlyUpperBoundVacationAllotted2 == -1:
+                    file5.write(" vacation day.")
+                else:
+                    file5.write(" vacation days.")
+            
+            if monthlyLowerBoundVacationAllotted == monthlyLowerBoundVacationAllotted2:
+                pass
+            elif monthlyLowerBoundVacationAllotted > monthlyLowerBoundVacationAllotted2:
+                file5.write("\n\nThe monthly lower bound was decreased by ")
+                file5.write(str(monthlyLowerBoundVacationAllotted - monthlyLowerBoundVacationAllotted2))
+                if monthlyLowerBoundVacationAllotted - monthlyLowerBoundVacationAllotted2 == 1:
+                    file5.write(" vacation day.")
+                elif monthlyLowerBoundVacationAllotted - monthlyLowerBoundVacationAllotted2 == -1:
+                    file5.write(" vacation day.")
+                else:
+                    file5.write(" vacation days.")
+            else:
+                file5.write("\n\nThe monthly lower bound was increased by ")
+                file5.write(str(abs(monthlyLowerBoundVacationAllotted - monthlyLowerBoundVacationAllotted2)))
+                if monthlyLowerBoundVacationAllotted - monthlyLowerBoundVacationAllotted2 == 1:
+                    file5.write(" vacation day.")
+                elif monthlyLowerBoundVacationAllotted - monthlyLowerBoundVacationAllotted2 == -1:
+                    file5.write(" vacation day.")
+                else:
+                    file5.write(" vacation days.")
+            
+            if userAnnualUpperBoundVacationAllotted == userAnnualUpperBoundVacationAllotted2:
+                pass
+            elif userAnnualUpperBoundVacationAllotted > userAnnualUpperBoundVacationAllotted2:
+                file5.write("\n\nThe annual upper bound was decreased by ")
+                file5.write(str(userAnnualUpperBoundVacationAllotted - userAnnualUpperBoundVacationAllotted2))
+                if userAnnualUpperBoundVacationAllotted - userAnnualUpperBoundVacationAllotted2 == 1:
+                    file5.write(" vacation day.")
+                elif userAnnualUpperBoundVacationAllotted - userAnnualUpperBoundVacationAllotted2 == -1:
+                    file5.write(" vacation day.")
+                else:
+                    file5.write(" vacation days.")
+            else:
+                file5.write("\n\nThe annual upper bound was increased by ")
+                file5.write(str(abs(userAnnualUpperBoundVacationAllotted - userAnnualUpperBoundVacationAllotted2)))
+                if userAnnualUpperBoundVacationAllotted - userAnnualUpperBoundVacationAllotted2 == 1:
+                    file5.write(" vacation day.")
+                elif userAnnualUpperBoundVacationAllotted - userAnnualUpperBoundVacationAllotted2 == -1:
+                    file5.write(" vacation day.")
+                else:
+                    file5.write(" vacation days.")
+                
+            if annualLowerBoundVacationAllotted == annualLowerBoundVacationAllotted2:
+                pass
+            elif annualLowerBoundVacationAllotted > annualLowerBoundVacationAllotted2:
+                file5.write("\n\nThe annual lower bound was decreased by ")
+                file5.write(str(annualLowerBoundVacationAllotted - annualLowerBoundVacationAllotted2))
+                if annualLowerBoundVacationAllotted - annualLowerBoundVacationAllotted2 == 1:
+                    file5.write(" vacation day.")
+                elif annualLowerBoundVacationAllotted - annualLowerBoundVacationAllotted2 == -1:
+                    file5.write(" vacation day.")
+                else:
+                    file5.write(" vacation days.")
+            else:
+                file5.write("\n\nThe annual lower bound was increased by ")
+                file5.write(str(abs(annualLowerBoundVacationAllotted - annualLowerBoundVacationAllotted2)))
+                if annualLowerBoundVacationAllotted - annualLowerBoundVacationAllotted2 == 1:
+                    file5.write(" vacation day.")
+                elif annualLowerBoundVacationAllotted - annualLowerBoundVacationAllotted2 == -1:
+                    file5.write(" vacation day.")
+                else:
+                    file5.write(" vacation days.")
+            
+                
     def Exit(self):
         os._exit(1)
     
